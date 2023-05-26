@@ -14,10 +14,26 @@ export const Register = ({ navigation }) => {
         clone[key] = value
         setForm(clone)
     }
-    const Validated = () => {
-        return (form.name && form.pass && form.email && form.phone)
-            ? true : false
-    }
+    const ValidateForm = () => {
+        const { name, pass, email, phone } = form;
+        if (!name || name.trim() === '' || hasName(name)) {
+            setError('Preencha seu nome completo!');
+            return false;
+        }
+        if (!pass || hasPass(pass)) {
+            setError('A senha deve ter entre 6 e 8 dígitos');
+            return false;
+        }
+        if (!email || hasEmail(email)) {
+          setError('Digite um e-mail válido!');
+          return false;
+        }
+        if (!phone || hasPhone(phone)) {
+          setError('Digite um telefone válido! Ex: (xx)99999-9999');
+          return false;
+        }
+        return true;
+      };
     const Next = () => {
         var clone = Object.assign({}, form)
         clone.login = true
