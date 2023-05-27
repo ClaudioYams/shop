@@ -3,20 +3,58 @@ import { Style } from "../../Contexts/Theme"
 import { useState } from "react"
 import { ImageCuston } from "../Image"
 import { ButtonCuston } from '../Button'
+import React from 'react';
+import { Button, View, Text } from 'react-native';
+import { useCart } from '../contexts/CartContext';
+
+function ProductList() {
+    const { cart, setCart } = useCart();
+
+    const products = [
+        { id: 1, name: 'Produto 1' },
+        { id: 2, name: 'Produto 2' },
+    ];
+
+    const addToCart = (product) => {
+        const productInCart = cart.find(item => item.id === product.id);
+
+        if (productInCart) {
+            setCart(cart.map(item =>
+                item.id === product.id
+                    ? { ...item, quantity: item.quantity + 1 }
+                    : item
+            ));
+        } else {
+            setCart([...cart, { ...product, quantity: 1 }]);
+        }
+    };
+
+    const removeFromCart = (productId) => {
+        const productInCart = cart.find(item => item.id === productId);
+
+        if (productInCart) {
+            if (productInCart.quantity > 1) {
+                setCart(cart.map(item =>
+                    item.id === productId
+                        ? { ...item, quantity: item.quantity - 1 }
+                        : item
+                ));
+            } else {
+                setCart(cart.filter(item => item.id !== productId));
+            }
+        }
+    };
+
+}
 
 export const Card = (props) => {
     const [getQtd, setQtd] = useState(0)
     const add = () => {
         setQtd(getQtd + 1)
-        // If verificar se produto exite sacola
-        // Not exist - eu add item e qtd   { 'alface': 1 ,'tomate': 2 }  sacola[title]= getQtd +1
     }
     const remove = () => {
         if (getQtd != 0) {
             setQtd(getQtd - 1)
-            // If verificar se produto exite sacola
-            // Not exist - eu add item e qtd   { 'alface': 1 }  sacola[title]= getQtd -1
-            // Remove item da sacola { 'alface': 0 } => {}
         }
     }
     const onPress = () => {

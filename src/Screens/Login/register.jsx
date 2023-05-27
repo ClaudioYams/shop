@@ -4,6 +4,9 @@ import { setData } from '../../Contexts/Data'
 import { TextCuston } from "../../Components/TextInput"
 import { ButtonCuston } from "../../Components/Button"
 import { Style } from "../../Contexts/Theme"
+import { hasName, hasPass, hasEmail, hasPhone } from "../../Contexts/validForm"
+
+
 
 export const Register = ({ navigation }) => {
     const [form, setForm] = useState({})
@@ -14,7 +17,7 @@ export const Register = ({ navigation }) => {
         clone[key] = value
         setForm(clone)
     }
-    const ValidateForm = () => {
+    const Validated = () => {
         const { name, pass, email, phone } = form;
         if (!name || name.trim() === '' || hasName(name)) {
             setError('Preencha seu nome completo!');
@@ -69,5 +72,6 @@ export const Register = ({ navigation }) => {
             CallBack={CallBack} />
         <Text style={Style.error}>{error}</Text>
         <ButtonCuston onPress={onPress} placeholder='Cadastrar' />
+
     </View>)
 }

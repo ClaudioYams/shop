@@ -1,4 +1,5 @@
 export const maskPhone = (phone, value) => {
+    
     if (value.length == 1 && phone.length == 0) {
         return "(" + value
     }
